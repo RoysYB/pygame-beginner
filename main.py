@@ -1,5 +1,8 @@
 import pygame
 import time
+import os
+
+
 
 #Creating Window
 WIDTH,HEIGHT =900,600   
@@ -9,16 +12,41 @@ pygame.display.set_caption("GAME")     #caption of window
 #necessary variables and functions  
 WHITE=(255,255,255)
 FPS=60
+SPACESHIP_HEIGHT,SPACESHIP_WIDTH=55,40
+
+YELLOW_SPACESHIP_IMAGE=pygame.image.load(os.path.join('Assets','spaceship_yellow.png'))#loading image 
+YELLOW_SPACESHIP=pygame.transform.rotate(pygame.transform.scale(YELLOW_SPACESHIP_IMAGE,(SPACESHIP_HEIGHT,SPACESHIP_WIDTH)),90)#image size reduction and rotation
+
+RED_SPACESHIP_IMAGE=pygame.image.load(os.path.join('Assets','spaceship_red.png'))
+RED_SPACESHIP=pygame.transform.rotate(pygame.transform.scale(RED_SPACESHIP_IMAGE,(SPACESHIP_HEIGHT,SPACESHIP_WIDTH)),270)
+
+
+
+
+
+
 
 #function to draw items into window  in a single loop
+
 def draw_window():
-    WIN.fill(WHITE)        #giving  color
+#    !!!!!!!write everything in an order  cus  it executes each line and draws on top of each other
+    WIN.fill(WHITE)        #giving  color    
+    WIN.blit(YELLOW_SPACESHIP,(yellow.x,yellow.y))#we use blit to draw our image  within the screen size  ,images are drawn from top left(0,0) in pygame without coordinates
+    WIN.blit(RED_SPACESHIP,(red.x,red.y))
     pygame.display.update()#updating      
 
 
+
+
+
+
+
 #crating pygame event loop  inside the main function   
+
 def main():
-    clock=pygame.time.Clock()         #to set  fps  ==  looping
+    clock=pygame.time.Clock()         #to set  fps  ==  looping    , we create a clock object 
+    red=pygame.Rect(100,300,SPACESHIP_HEIGHT,SPACESHIP_WIDTH)#creating a rectangle around our spaceship to track its movements
+    yellow =pygame.Rect(700,300,SPACESHIP_HEIGHT,SPACESHIP_WIDTH)
     run=True
     while run:
         clock.tick(FPS)
@@ -26,6 +54,7 @@ def main():
             #while quitting window
             if event.type==pygame.QUIT :
                 run =False
+        red.x+=1        
         draw_window()   #drawing into window  one time in one loop
     pygame.quit()            
 
