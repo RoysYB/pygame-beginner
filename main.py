@@ -43,20 +43,20 @@ def YELLOW_KEYBOARD_MOVEMENT(keys_pressed,yellow):
 
     if keys_pressed[pygame.K_a] and yellow.x-VEL>0:         #LEFT  key pressed
         yellow.x-=VEL
-    if keys_pressed[pygame.K_d] and yellow.x+VEL<BORDER.x:         #RIGHT  key pressed
+    if keys_pressed[pygame.K_d] and yellow.x+VEL+SPACESHIP_WIDTH<BORDER.x:         #RIGHT  key pressed
         yellow.x+=VEL
-    if keys_pressed[pygame.K_w]:         #UP  key pressed
+    if keys_pressed[pygame.K_w]   and yellow.y-VEL>0 :         #UP  key pressed
         yellow.y-=VEL            
-    if keys_pressed[pygame.K_s]:         #DOWN key pressed
+    if keys_pressed[pygame.K_s] and yellow.y+VEL+SPACESHIP_HEIGHT<HEIGHT:         #DOWN key pressed
         yellow.y+=VEL     
 def RED_KEYBOARD_MOVEMENT(keys_pressed,red):
-    if keys_pressed[pygame.K_LEFT]:         #LEFT  key pressed
+    if keys_pressed[pygame.K_LEFT] and red.x-VEL>WIDTH/2:         #LEFT  key pressed
         red.x-=VEL
-    if keys_pressed[pygame.K_RIGHT]:         #RIGHT  key pressed
+    if keys_pressed[pygame.K_RIGHT]  and red.x+VEL+SPACESHIP_WIDTH<WIDTH:         #RIGHT  key pressed
         red.x+=VEL
-    if keys_pressed[pygame.K_UP]:         #UP  key pressed
+    if keys_pressed[pygame.K_UP]  and red.y-VEL>0:         #UP  key pressed   set to zero since the  border begins from zero from top
         red.y-=VEL            
-    if keys_pressed[pygame.K_DOWN]:         #DOWN key pressed
+    if keys_pressed[pygame.K_DOWN] and red.y+SPACESHIP_HEIGHT<HEIGHT:         #DOWN key pressed
         red.y+=VEL
 
 
