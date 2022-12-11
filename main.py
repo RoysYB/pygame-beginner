@@ -2,7 +2,7 @@ import pygame
 import time
 import os
 pygame.font.init()
-
+pygame.mixer.init()#for sounds
 
 #Creating Window
 WIDTH,HEIGHT =900,600   
@@ -24,16 +24,15 @@ max_bullets=3
 bullet_vel=5
 red_health=5
 yellow_health=5
-
-
-
-
+#getting the bullet sound
+BULLET_FIRE_SOUND=pygame.mixer.Sound(os.path.join('Assets','laser.mp3'))
+BULLET_HIT_SOUND=pygame.mixer.Sound(os.path.join('Assets','explosion.mp3'))
 
 
 #creating an event for bullet collission with space ship
 YELLOW_HIT=pygame.USEREVENT+1  #it would be some number of events +1 th event
 RED_HIT=pygame.USEREVENT+2
-SPACE=pygame.transform.scale(pygame.image.load(os.path.join('Assets','space.png')),(WIDTH,HEIGHT))
+SPACE=pygame.transform.scale(pygame.image.load(os.path.join('Assets','space.jpg')),(WIDTH,HEIGHT))
 
 
 YELLOW_SPACESHIP_IMAGE=pygame.image.load(os.path.join('Assets','spaceship_yellow.png'))#loading image 
@@ -46,7 +45,7 @@ RED_SPACESHIP=pygame.transform.rotate(pygame.transform.scale(RED_SPACESHIP_IMAGE
 
 #creating fonts 
 Health_font=pygame.font.SysFont('Comicsans',40)
-
+WINNER_FONT=pygame.font.SysFont('Comicsans',100)
 
 
 #function to draw items into window  in a single loop
@@ -55,7 +54,7 @@ def draw_window(red,yellow,red_bullets,yellow_bullets,red_health,yellow_health):
 #    !!!!!!!write everything in an order  cus  it executes each line and draws on top of each other
     #WIN.fill(WHITE)        #giving  background color    is not given pygame draws on top of the previous frame   
     WIN.blit(SPACE,(0,0))#giving space image as the background
-    pygame.draw.rect(WIN,BLACK,BORDER)
+    pygame.draw.rect(WIN,WHITE,BORDER)
     
     red_health_text=Health_font.render("Health:"+str(red_health),1,WHITE)
     yellow_health_text=Health_font.render("Health:"+str(yellow_health),1,WHITE)
@@ -114,7 +113,17 @@ def bullet_hit(yellow_bullets,red_bullets,yellow, red):
             red_bullets.remove(bullet)
         elif bullet.x<0:
             red_bullets.remove(bullet)
-           
+
+
+
+
+def draw_winner(text):
+    draw_text=WINNER_FONT.render(text,1,WHITE)
+    WIN.blit(draw_text,(WIDTH/2-draw_text.get_width()/2,HEIGHT/2-draw_text.get_height()/2))
+    pygame.display.update()
+    pygame.time.delay(5000)
+
+
 #crating pygame event loop  inside the main function
 def main():
     clock=pygame.time.Clock()         #to set  fps  ==  looping    , we create a clock object 
@@ -135,14 +144,18 @@ def main():
             if event.type==pygame.KEYDOWN:
                 if event.key==pygame.K_LCTRL and len(yellow_bullets)<max_bullets:
                     bullet=pygame.Rect(yellow.x+yellow.width,yellow.y+yellow.height//2-2,10,5)#// is integer division since rect doesnot support floating point numbers
-                    yellow_bullets.append(bullet)    
+                    yellow_bullets.append(bullet) 
+                    BULLET_FIRE_SOUND.play()   
                 if event.key==pygame.K_RCTRL and len(red_bullets)<max_bullets:
                     bullet=pygame.Rect(red.x,red.y+red.height//2-2,10,5)
                     red_bullets.append(bullet)
+                    BULLET_FIRE_SOUND.play()
             if event.type==RED_HIT:
                  red_health-=1
+                 BULLET_HIT_SOUND.play()
             if event.type==YELLOW_HIT:
                   yellow_health-=1
+                  BULLET_HIT_SOUND.play()
         
         winner_text=""
         if red_health==0:
@@ -150,7 +163,9 @@ def main():
         if yellow_health==0:             
             winner_text="Red Wins!!"  
         if winner_text!='':
-            pass    
+            #pass
+            draw_winner(winner_text)
+            break    
         #red.x+=1
         #yellow.x-=1   
         #print(red_bullets,"and ",yellow_bullets)     #just printing the bullets lists
