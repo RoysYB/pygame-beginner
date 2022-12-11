@@ -57,11 +57,10 @@ def draw_window(red,yellow,red_bullets,yellow_bullets,red_health,yellow_health):
     WIN.blit(SPACE,(0,0))#giving space image as the background
     pygame.draw.rect(WIN,BLACK,BORDER)
     
-    red_health_text=Health_font.render("Health:",str(red_health),1,WHITE)
-    yellow_health_text=Health_font.render("Health:",str(yellow_health),1,WHITE)
+    red_health_text=Health_font.render("Health:"+str(red_health),1,WHITE)
+    yellow_health_text=Health_font.render("Health:"+str(yellow_health),1,WHITE)
     # 
-    # 
-    # WIN.blit(red_health_text,(WIDTH,red_health_text.get_width-10,10))
+    WIN.blit(red_health_text,(WIDTH-red_health_text.get_width()-10,10))
     WIN.blit(yellow_health_text,(10,10))
     WIN.blit(YELLOW_SPACESHIP,(yellow.x,yellow.y))#we use blit to draw our image  within the screen size  ,images are drawn from top left(0,0) in pygame without coordinates
     WIN.blit(RED_SPACESHIP,(red.x,red.y))
