@@ -5,7 +5,7 @@ pygame.font.init()
 pygame.mixer.init()#for sounds
 
 #Creating Window
-WIDTH,HEIGHT =900,601   
+WIDTH,HEIGHT =900,600   
 WIN=pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("GAME")     #caption of window
 BORDER=pygame.Rect(WIDTH/2,0,10,HEIGHT)
